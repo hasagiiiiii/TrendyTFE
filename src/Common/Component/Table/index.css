@@ -1,0 +1,24 @@
+.custom-table .ant-table-body {
+    background-color: #f0f0f0;
+    /* ✅ Đặt nền xám */
+    min-height: 100%;
+
+    /* Đảm bảo phần body có chiều cao đầy đủ */
+}
+
+.custom-table-wrapper {
+    margin: 12px 4px;
+
+}
+
+.custom-table-wrapper {
+    background-color: #f0f0f0;
+    /* ✅ Màu xám cho phần trống */
+    display: flex;
+    flex-direction: column;
+}
+
+thead>tr>.ant-table-cell,
+tbody>tr:hover>td.ant-table-cell {
+    background-color: #44ada8 !important;
+}

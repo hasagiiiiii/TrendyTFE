@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+    --main-color: #8e44ad;
+    --red: #e74c3c;
+    --orange: #f39c12;
+    --light-color: #888;
+    --light-bg: #eee;
+    --black: #2c3e50;
+    --white: #fff;
+    --border: .1rem solid rgba(0, 0, 0, .2);
+}
+
+.flex {
+    display: flex;
+}
+
+.inline-btn,
+.inline-option-btn,
+.inline-delete-btn,
+.btn,
+.delete-btn,
+.option-btn {
+    border-radius: .5rem;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    text-transform: capitalize;
+    padding: 1rem 3rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.btn,
+.delete-btn,
+.option-btn {
+    display: flex;
+    width: 100%;
+}
+
+.inline-btn,
+.inline-option-btn,
+.inline-delete-btn {
+    display: inline-block;
+}
+
+.btn,
+.inline-btn {
+    background-color: var(--main-color);
+}
+
+.option-btn,
+.inline-option-btn {
+    background-color: var(--orange);
+}
+
+.delete-btn,
+.inline-delete-btn {
+    background-color: var(--red);
+}
+
+.inline-btn:hover,
+.inline-option-btn:hover,
+.inline-delete-btn:hover,
+.btn:hover,
+.delete-btn:hover,
+.option-btn:hover {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.ant-breadcrumb {
+    padding: 10px 20px;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+}
+
+.ant-typography {
+    margin: 0 !important;
+}
+
+.ant-breadcrumb-link {
+    font-size: 18px;
+}
+
+.ant-layout-header {
+    height: 100px;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(211, 206, 206);
+    display: block !important;
+    transition: ease-in-out 0.2s;
+}
+
+.ant-layout-header.scroll {
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.315) !important;
+}
+
+.ant-layout-content {
+    margin: 0px 16px !important;
+}
+
+.ant-btn:not(:disabled):focus-visible {
+    outline: none;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-collapse>.ant-collapse-item>.ant-collapse-header {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    padding: 12px 16px;
+    color: #FFFFFF;
+    line-height: 1.5714285714285714;
+    cursor: pointer;
+    transition: all 0.3s, visibility 0s;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-collapse {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    margin: 5px 0px;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 14px;
+    line-height: 1.5714285714285714;
+    list-style: none;
+    background-color: #6035b2;
+    border: none !important;
+    border-radius: 8px;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-collapse .ant-collapse-content {
+    background-color: #3c27636e;
+    border: none !important;
+}
+
+.ant-collapse .ant-collapse-content>.ant-collapse-content-box>a {
+    color: #FFFFFF;
+    display: block;
+}
+
+.menu .ant-menu-item-selected {
+    background-color: #6135b257 !important;
+}
+
+.menu :hover {
+    background-color: #30175e57 !important;
+}
+
+.ant-collapse {
+    margin: 4px !important;
+}
+
+.ant-layout-sider {
+    flex: 0 0 270px !important;
+    max-width: 270px !important;
+    min-width: 270px !important;
+    width: 270px !important;
+    background-color: #FFFFFF !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.192);
+}
+
+.sider .profile {
+
+    background-color: var(--white);
+    border-radius: .5rem;
+    padding: 1.5rem;
+    text-align: center;
+    overflow: hidden;
+    transform-origin: top right;
+    transition: .2s linear;
+}
+
+.sider .profile .image {
+    height: 8rem;
+    width: 10rem;
+    border-radius: 50%;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.sider .profile .name {
+    font-size: 25px;
+    color: var(--black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sider .profile .role {
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--light-color);
+    text-transform: uppercase;
+}
+
+.navbar a {
+    display: block;
+    padding: 1.3rem;
+    font-size: 18px;
+}
+
+.navbar a svg {
+    margin-right: 1.5rem;
+    color: var(--main-color);
+    transition: .2s linear;
+}
+
+.navbar a span {
+    color: var(--light-color);
+}
+
+.navbar a:hover {
+    background-color: var(--light-bg);
+}
+
+.navbar a:hover svg {
+    margin-right: 2.5rem;
+}
+
+
+.header .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 10px 5px;
+}
+
+.header .flex .logo {
+    font-size: 2.5rem;
+    color: var(--black);
+}
+
+.header .flex .search-form {
+    width: 50rem;
+    background-color: var(--light-bg);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+
+}
+
+.header .flex .search-form input {
+    width: 100%;
+    font-size: 18px;
+    color: var(--black);
+    background: none;
+}
+
+.header .flex .search-form button {
+    background: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--black);
+    display: flex;
+    align-items: center;
+}
+
+.header .flex .search-form button:hover {
+    color: var(--main-color);
+}
+
+.header .flex .icons div {
+    font-size: 18px;
+    color: var(--black);
+    background-color: var(--light-bg);
+    border-radius: .5rem;
+    height: 50px;
+    width: 70px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .flex .icons div:hover {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.header .flex .profile {
+    position: absolute;
+    top: 120%;
+    right: 2rem;
+    background-color: var(--white);
+    border-radius: .5rem;
+    padding: 10px;
+    text-align: center;
+    overflow: hidden;
+    transform-origin: top right;
+    transform: scale(0);
+    transition: .2s linear;
+    width: 19rem;
+    z-index: 999;
+}
+
+.header .flex .profile.active {
+    transform: scale(1);
+}
+
+.header .flex .profile .image {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.header .flex .profile .name {
+    font-size: 20px;
+    color: var(--black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 30px;
+}
+
+.header .flex .profile .role {
+    line-height: 16px;
+    font-size: 16px;
+    color: var(--light-color);
+}
+
+.header .flex .profile .flex-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.header .flex .profile .btn,
+.header .flex .profile .flex-btn .option-btn {
+    padding: 10px 10px;
+    line-height: 40px;
+}
