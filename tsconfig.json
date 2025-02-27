@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "ES6",                      // Cấu hình target là ES6
+      "module": "CommonJS",                  // Sử dụng module kiểu CommonJS
+      "strict": true,                        // Bật chế độ strict
+      "esModuleInterop": true,               // Hỗ trợ import/export giữa CommonJS và ESModules
+      "skipLibCheck": true,                  // Bỏ qua kiểm tra các thư viện bên ngoài
+      "forceConsistentCasingInFileNames": true, // Bắt buộc tên file phải nhất quán trong suốt dự án
+      "outDir": "./dist",                     // Định nghĩa thư mục output cho các file biên dịch
+      "allowSyntheticDefaultImports": true
+
+    },
+    "include": ["src/**/*.ts",],              // Chỉ bao gồm các file TypeScript trong thư mục src
+    "exclude": ["node_modules"]              // Loại trừ thư mục node_modules
+  }
