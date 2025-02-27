@@ -1,0 +1,39 @@
+html::-webkit-scrollbar {
+    width: 1rem;
+    height: .5rem;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+}
+
+*::selection {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+body {
+    max-width: 1500px;
+}
+
+.ant-modal-content {
+    padding: 0 !important;
+}
+
+.ant-modal-confirm-title,
+.ant-modal-confirm-content {
+    padding: 20px 40px;
+}
+
+.ant-modal-confirm-paragraph {
+    max-width: 100% !important;
+
+}
+
+.ant-modal-confirm-title {
+    background-color: var(--main-color);
+}
