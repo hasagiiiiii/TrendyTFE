@@ -20,7 +20,7 @@ export const verifyTokenMiddleware = async (
         "TrendyT",
         (err: jwt.VerifyErrors | null, decoded: any) => {
             if (err) {
-                return res.status(403).json({ result: -2, message: "RefreshToken không hợp lệ" });
+                return res.status(200).json({ result: -2, data: [], message: "RefreshToken không hợp lệ" });
             }
 
             // Kiểm tra kiểu dữ liệu cho decoded và chuyển nó sang kiểu User nếu cần
@@ -30,7 +30,7 @@ export const verifyTokenMiddleware = async (
                 "TrendyT",
                 { expiresIn: "1h" }
             );
-            res.cookie("token", newAccessToken, {
+            res.cookie("accessToken", newAccessToken, {
                 httpOnly: true,
                 secure: true,
                 sameSite: "strict",

@@ -7,8 +7,10 @@ export interface InsertCourses {
     category: number
 }
 export interface UDCourse {
+    id: number
     title: string
     description: string
     price: number
     thumbnail: string
+    category: number
 }

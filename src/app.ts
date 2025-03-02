@@ -10,6 +10,7 @@ import path from "path";
 import fs from "fs";
 import { Courses } from "./Router/Courses.router";
 import { Category } from "./Router/Category.router";
+import { LessonRouter } from "./Router/Lesson.router";
 const app = express()
 const server = http.createServer(app)
 const port = 3001
@@ -53,6 +54,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage, fileFilter });
 app.use("/api", AuthRouter, Category)
 app.use('/api', upload.single("thumbnail"), verifyTokenMiddleware, Courses)
+app.use('/course', upload.single("video_url"), verifyTokenMiddleware, LessonRouter)
 app.get('/test', (req: any, res: any) => {
     res.status(200).json({ message: 'Test' })
 })

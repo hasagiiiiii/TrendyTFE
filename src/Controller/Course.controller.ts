@@ -17,28 +17,31 @@ export const InsertCourse = async (courses: InsertCourses) => {
 }
 
 export const UpdateCourse = async (courses: UDCourse) => {
+    console.log('course', courses);
     const query = `
-    UPDATE courses SET title = $1, description = $2,price = $3 , thumbnail = $4 WHERE id = $5 RETURNING *;
+   UPDATE courses SET title = $1,description =$2,price=$3,thumbnail=$4,category=$5 Where id = $6 RETURNING *;
   `;
     const res = await runQuery(query, [
         courses.title,
         courses.description,
         courses.price,
         courses.thumbnail,
+        courses.category,
+        courses.id
 
     ])
     return res?.rows[0]
 }
 export const SelectCourses = async () => {
     const query = `
-    Select courses.id,courses.title,courses.description,courses.created_at,courses.thumbnail,courses.price,users.user_name,users.avatar from courses JOIN users on courses.teacher_id = users.id 
+    Select courses.id,courses.title,courses.description,courses.category,courses.created_at,courses.thumbnail,courses.price,users.user_name,users.avatar from courses JOIN users on courses.teacher_id = users.id  ORDER BY courses.id ASC
     `;
     const res = await runQuery(query, [])
     return res?.rows
 }
 export const SelectCourseByID = async (idUser: number) => {
     const query = `
-    SELECT * FROM courses WHERE teacher_id = $1
+    SELECT * FROM courses WHERE teacher_id = $1 ORDER BY id ASC
     `;
     const res = await runQuery(query, [idUser]);
     return res?.rows;
