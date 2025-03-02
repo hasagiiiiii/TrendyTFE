@@ -23,7 +23,8 @@ interface CommonTableProps<T> {
   colSpan?: number;
   pagination?: boolean;
   loading?: boolean;
-  onRowSelection?: (selectedRows: T[]) => void;
+  onRowClick?: (record: T, index: number) => void;
+  onDBClick?: (record: T, index: number) => void;
 }
 const TableCommon = <T extends Record<string, any>>({
   columns,
@@ -33,6 +34,8 @@ const TableCommon = <T extends Record<string, any>>({
   border = false,
   pagination = false,
   loading = false,
+  onRowClick,
+  onDBClick,
 }: CommonTableProps<T>) => {
   const rowHeight = 55; // ✅ Giả sử mỗi hàng cao khoảng 48px
   const maxVisibleRows = height ? Math.floor(height / rowHeight) : 0;
@@ -57,8 +60,9 @@ const TableCommon = <T extends Record<string, any>>({
           align={col.align}
           sorter={col.sorter}
           onCell={(record) => ({
-            onClick: () => col.onCellClick?.(record, record[col.dataIndex]), // Bắt sự kiện click vào ô
+            onClick: () => onRowClick?.(record, 1), // Bắt sự kiện click vào ô
             style: { cursor: col.onCellClick ? 'pointer' : 'default' },
+            onDoubleClick: () => onDBClick?.(record, 2),
           })}
           render={
             col.render

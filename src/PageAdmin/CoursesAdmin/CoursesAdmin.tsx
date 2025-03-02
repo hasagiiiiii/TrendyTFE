@@ -1,11 +1,16 @@
 import React from 'react';
-import Course, { CourseItem } from '../../Common/Component/Course/Course';
+import { CourseItem } from '../../Common/Component/Course/Course';
 import './index.css';
 import axios from 'axios';
-import { Button, Col, Flex, TableProps } from 'antd';
 import ModalCommon from '../../Common/Component/Modal/Modal.component';
 import AddCourse from '../AddCourse/AddCourse';
 import TableCommon from '../../Common/Component/Table/Table';
+import UpdateCourse from '../UpdateCourse/UpdateCourse';
+import { useDispatch, useSelector } from 'react-redux';
+import CourseStoreReducer from './store/Course.store.reducer';
+import { getCourse } from './store/Course.store.selector';
+import { Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 const columns = [
   {
     title: 'STT',
@@ -18,7 +23,14 @@ const columns = [
     dataIndex: 'thumbnail',
     key: 'thumbnail',
     render: (img: string) => {
-      return <img src={`http://localhost:3001/uploads/${img}`} alt="icon" />;
+      return (
+        <img
+          width={40}
+          height={40}
+          src={`http://localhost:3001/uploads/${img}`}
+          alt="icon"
+        />
+      );
     },
   },
   {
@@ -30,36 +42,71 @@ const columns = [
     title: 'created_at',
     dataIndex: 'created_at',
     key: 'created_at',
+    render: (date: string) => {
+      let da = new Date(date).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      });
+      return <p>{da}</p>;
+    },
   },
 ];
 
 const CoursesAdmin = () => {
-  const [courses, setCourses] = React.useState<CourseItem[]>([]);
-  const SelectionRow = (col: any) => {
-    console.log(col);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const courses = useSelector(getCourse);
+  const handleRowClick = (record: CourseItem, index: number): void => {
+    // let update = ModalCommon.Show({
+    //   title: <h1>Update Course</h1>,
+    //   content: (
+    //     <UpdateCourse
+    //       dispatch={dispatch}
+    //       onSucces={() => update.destroy()}
+    //       course={record}
+    //     />
+    //   ),
+    // });
+    console.log('Bạn đã click vào hàng:', record);
+    navigate(`${record.title.trim()}`);
+    document.cookie = `idCourse=${record.id};path=/courses`;
+  };
+  const hanldeDBClick = (record: CourseItem, index: number) => {
+    console.log(record);
   };
   const hanldeRegister = () => {
     const Course = ModalCommon.Show({
-      content: <AddCourse onSucces={() => Course.destroy()} />,
+      content: (
+        <AddCourse dispatch={dispatch} onSucces={() => Course.destroy()} />
+      ),
       title: <h1>Add Course</h1>,
       onCancel: () => {},
-      afterClose: () => console.log('ket thuyc'),
-      width: 700,
     });
   };
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_URL_API}course`, {
+      .get(`${process.env.REACT_APP_URL_API}coursebyID`, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       })
-      .then((data) => setCourses(data.data.data));
+      .then((data) => {
+        dispatch(CourseStoreReducer.actions.setCourse(data.data.data));
+      });
   }, []);
   console.log(courses);
   return (
     <div>
       <h1>Our Courses</h1>
-      <TableCommon columns={columns} dataSource={courses} />
+      <Button className="btn" onClick={() => hanldeRegister()}>
+        Register
+      </Button>
+      <TableCommon
+        columns={columns}
+        onRowClick={handleRowClick}
+        dataSource={courses}
+        onDBClick={hanldeDBClick}
+      />
     </div>
   );
 };

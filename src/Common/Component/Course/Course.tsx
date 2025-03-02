@@ -12,6 +12,7 @@ export interface CourseItem {
   thumbnail: string;
   title: string;
   price: number;
+  category: number;
 }
 const Course: React.FC<{ course: CourseItem }> = ({ course }) => {
   React.useEffect(() => {

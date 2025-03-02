@@ -1,30 +1,7 @@
 import React, { useContext, useState } from 'react';
-import {
-  LogoutOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  MessageFilled,
-  PlusOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import {
-  Avatar,
-  Breadcrumb,
-  Button,
-  Col,
-  Collapse,
-  Drawer,
-  Flex,
-  Layout,
-  Menu,
-  Row,
-  Spin,
-  theme,
-  Typography,
-} from 'antd';
+import { Breadcrumb, Layout, Spin, theme } from 'antd';
 import {
   Link,
-  Outlet,
   Route,
   Routes,
   useLocation,
@@ -43,7 +20,6 @@ import ModalCommon from '../Component/Modal/Modal.component';
 import Register from '../../Page/Register/Register';
 import Login from '../../Page/Login/Login';
 import Home from '../../Page/Home/Home';
-import HomeAdmin from '../../PageAdmin/HomeAdmin/HomeAdmin';
 import pic1 from '../../assets/pic-1.jpg';
 import { IoMdHome, IoMdSearch } from 'react-icons/io';
 import { FaGraduationCap, FaQuestion, FaSun, FaUser } from 'react-icons/fa';
@@ -51,10 +27,12 @@ import { FaPersonChalkboard } from 'react-icons/fa6';
 import { MdContactMail, MdMenu } from 'react-icons/md';
 import NotFound from '../../Page/NotFound/NotFound';
 import CoursesAdmin from '../../PageAdmin/CoursesAdmin/CoursesAdmin';
+import Course from '../Component/Course/Course';
+import HomeAdmin from '../../PageAdmin/HomeAdmin/HomeAdmin';
+import PlayListCourse from '../../PageAdmin/PlayListCourse/PlayListCourse';
 const { Header, Sider, Content } = Layout;
 const LayoutCommon: React.FC = () => {
-  const { login, setLogin, Logout, spin, setSpin } =
-    React.useContext(AppContextAPI);
+  const { setLogin, Logout, spin, setSpin } = React.useContext(AppContextAPI);
   const call = useContext(CallVideoContextAPI);
   const [listRoom, setListRoom] = React.useState<GetAddRoomModel[] | []>([]);
   const location = useLocation();
@@ -202,120 +180,8 @@ const LayoutCommon: React.FC = () => {
           </Link>
         </nav>
       </Sider>
-      {/* <Drawer
-        placement="left"
-        onClose={() => setCollapsed(!collapsed)}
-        open={collapsed}
-      >
-        {listRoom?.map((item, index) => {
-          return (
-            <Collapse defaultActiveKey={[1]}>
-              <Collapse.Panel key={item.idroom} header={item.nameroom}>
-                <Menu
-                  className="menu"
-                  key={index}
-                  style={{ backgroundColor: '#6035b2' }}
-                >
-                  <Menu.Item
-                    onClick={() =>
-                      handleNavigate('/VideoCall', item.idroom, item.nameroom)
-                    }
-                    icon={<VideoCameraOutlined />}
-                  >
-                    VideoCall
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() =>
-                      handleNavigate('/Chat', item.idroom, item.nameroom)
-                    }
-                    icon={<MessageFilled />}
-                  >
-                    Chat
-                  </Menu.Item>
-                </Menu>
-              </Collapse.Panel>
-            </Collapse>
-          );
-        })}
-      </Drawer> */}
       <Layout>
         <Header className={`${isScrolled ? 'scroll' : ''} header`}>
-          {/* <Row>
-            <Col span={21}>
-              <Flex align="center">
-                <Button
-                  type="text"
-                  icon={
-                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                  }
-                  onClick={() => setCollapsed(!collapsed)}
-                  style={{
-                    fontSize: '16px',
-                    width: 64,
-                    height: 64,
-                  }}
-                />
-                <Typography.Title level={3}>TrendyT</Typography.Title>
-              </Flex>
-            </Col>
-            <Col span={3}>
-              {login || user ? (
-                <Flex align="center">
-                  <Button
-                    type="text"
-                    style={{
-                      fontSize: '16px',
-                      width: 64,
-                      height: 64,
-                    }}
-                  >
-                    <Avatar style={{ backgroundColor: '#1677ff' }}>
-                      {user ? user?.user_name?.charAt(0).toUpperCase() : ''}
-                    </Avatar>
-                  </Button>
-                  <Button
-                    type="text"
-                    icon={<LogoutOutlined style={{ fontSize: '20px' }} />}
-                    onClick={Logout}
-                    style={{
-                      fontSize: '16px',
-                      width: 64,
-                      height: 64,
-                    }}
-                  />
-                </Flex>
-              ) : (
-                <Flex align="center">
-                  <Col>
-                    <Button
-                      type="text"
-                      style={{
-                        fontSize: '16px',
-                        width: 100,
-                        height: 64,
-                      }}
-                      onClick={() => hanldeLogin()}
-                    >
-                      <h2>Login</h2>
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button
-                      type="text"
-                      style={{
-                        fontSize: '16px',
-                        width: 100,
-                        height: 64,
-                      }}
-                      onClick={handleRegister}
-                    >
-                      <h2>Register</h2>
-                    </Button>
-                  </Col>
-                </Flex>
-              )}
-            </Col>
-          </Row> */}
           <section className="flex">
             <a href="home.html" className="logo">
               Educa.
@@ -334,17 +200,31 @@ const LayoutCommon: React.FC = () => {
               </button>
             </form>
 
-            <div className="icons flex">
-              <div>
-                <MdMenu />
+            {user ? (
+              <div className="icons flex">
+                <div>
+                  <MdMenu />
+                </div>
+                <div onClick={() => setActive(true)} id="toggleButton">
+                  <FaUser />
+                </div>
+                <div>
+                  <FaSun />
+                </div>
               </div>
-              <div id="toggleButton" onClick={() => setActive(!active)}>
-                <FaUser />
+            ) : (
+              <div className="icons flex">
+                <div style={{ width: '150px' }} onClick={() => hanldeLogin()}>
+                  Login
+                </div>
+                <div
+                  onClick={() => handleRegister()}
+                  style={{ width: '150px' }}
+                >
+                  Register
+                </div>
               </div>
-              <div>
-                <FaSun />
-              </div>
-            </div>
+            )}
 
             <div className={`profile ${active ? 'active' : ''} `}>
               <img src={pic1} className="image" alt="" />
@@ -354,12 +234,12 @@ const LayoutCommon: React.FC = () => {
                 view profile
               </a>
               <div className="flex-btn">
-                <Link to="/" className="option-btn">
-                  login
+                <Link onClick={() => Logout()} to="" className="option-btn">
+                  Logout
                 </Link>
-                <Link to="" className="option-btn">
+                {/* <Link to="" className="option-btn">
                   register
-                </Link>
+                </Link> */}
               </div>
             </div>
           </section>
@@ -379,14 +259,14 @@ const LayoutCommon: React.FC = () => {
             position: 'relative',
           }}
         >
-          {user?.role == 'student' ? (
-            <Home />
-          ) : (
+          {user?.role === 'student' ? <Home /> : undefined}
+          {user?.role === 'teacher' ? (
             <Routes>
               <Route path="courses" element={<CoursesAdmin />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="courses/:id" element={<PlayListCourse />}></Route>
             </Routes>
-          )}
+          ) : undefined}
+          {/* <Route path="*" element={<NotFound />} /> */}
           <Spin spinning={spin} fullscreen size="large"></Spin>
         </Content>
       </Layout>

@@ -5,13 +5,17 @@ import createSagaMiddleware from "redux-saga";
 import layoutStoreReducer from "../Common/Layout/store/layout.store.reducer";
 import { rootSaga } from "./saga";
 import CourseStoreReducer from "../PageAdmin/CoursesAdmin/store/Course.store.reducer";
+import UpdateCourseStoreReducer from "../PageAdmin/UpdateCourse/store/UpdateCourse.store.reducer";
+import PlaylistAdminStoreReducer from "../PageAdmin/PlayListCourse/store/PlaylistAdmin.store.reducer";
 const sagamiddleware = createSagaMiddleware()
 const store = configureStore({
     reducer: {
         user: loginStoreReducer.reducer,
         room: roomStoreReducer.reducer,
         layout: layoutStoreReducer.reducer,
-        courses: CourseStoreReducer.reducer
+        courses: CourseStoreReducer.reducer,
+        courseUpdate: UpdateCourseStoreReducer.reducer,
+        playListAdmin: PlaylistAdminStoreReducer.reducer
     },
     middleware(getDefaultMiddleware) {
         return getDefaultMiddleware({ thunk: false }).concat(sagamiddleware)

@@ -2,15 +2,10 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LayoutCommon from './Common/Layout';
 import AppContext from './Context/AppContext';
-import Login from './Page/Login/Login';
-import AddRoom from './Page/AddRoom/';
-import VideoCall from './Page/VideoCall';
-import Chat from './Page/Chat';
-import AddUserInRoom from './Page/AddUserInRoom';
 import CallVideoContext from './Context/CallVideoContext';
-import Home from './Page/Home/Home';
 import './App.css';
 import NotFound from './Page/NotFound/NotFound';
+import UpdateCourse from './PageAdmin/UpdateCourse/UpdateCourse';
 const App = () => {
   return (
     <BrowserRouter>

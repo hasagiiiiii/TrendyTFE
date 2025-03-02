@@ -1,3 +1,5 @@
+import { clearAllCookies } from '../Common/Function/Cookie';
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 interface FetchOptions {
@@ -29,7 +31,16 @@ export const fetchData = async (
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    return await response.json();
+    let a = await response.json();
+    console.log('response', await a);
+    if (a.result === -2) {
+      window.location.href = '/';
+      clearAllCookies();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+    return await a;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;

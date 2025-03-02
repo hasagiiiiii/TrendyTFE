@@ -13,6 +13,8 @@ import { FormProps } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import getCookie from '../../Common/Function/Cookie';
+import { Dispatch } from '@reduxjs/toolkit';
+import CourseStoreReducer from '../CoursesAdmin/store/Course.store.reducer';
 export interface AddCourseModel {
   title: string;
   description: string;
@@ -20,7 +22,10 @@ export interface AddCourseModel {
   thumbnail: string;
   category: number;
 }
-const AddCourse: React.FC<{ onSucces: Function }> = ({ onSucces }) => {
+const AddCourse: React.FC<{ onSucces: Function; dispatch: Dispatch<any> }> = ({
+  onSucces,
+  dispatch,
+}) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
   const [file, setFile] = React.useState<File>();
@@ -65,6 +70,9 @@ const AddCourse: React.FC<{ onSucces: Function }> = ({ onSucces }) => {
           withCredentials: true,
         }
       );
+      if (response.data.result === 0) {
+        dispatch(CourseStoreReducer.actions.insertCourse(response.data.data));
+      }
       onSucces();
       message.success('Upload thành công!');
       console.log(response.data);
@@ -153,7 +161,7 @@ const AddCourse: React.FC<{ onSucces: Function }> = ({ onSucces }) => {
           </Button>
         </Upload>
       </Form.Item>
-      <Form.Item<AddCourseModel> name="category">
+      <Form.Item<AddCourseModel>>
         <Button className="btn" htmlType="submit">
           Register
         </Button>
