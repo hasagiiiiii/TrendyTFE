@@ -1,0 +1,32 @@
+.App {
+    position: relative;
+}
+
+.App {
+    position: relative;
+}
+
+.function {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 34%;
+    bottom: 40px;
+    width: 500px;
+    justify-content: space-around;
+}
+
+#gridVideo {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+
+}
+
+.function button {
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: blueviolet;
+    padding: 30px 40px;
+}

@@ -1,0 +1,26 @@
+    .chat .message {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .chat .message.even {
+        flex-direction: row;
+        /* Chẵn: Avatar bên trái */
+    }
+
+    .chat .message.odd {
+        flex-direction: row-reverse;
+        /* Lẻ: Avatar bên phải */
+    }
+
+    .input {
+        position: fixed;
+        bottom: 40px;
+        width: 1000px;
+    }
+
+    .chat::-webkit-scrollbar {
+        display: none;
+        /* Ẩn thanh cuộn */
+    }

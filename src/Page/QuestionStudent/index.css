@@ -1,0 +1,15 @@
+.question .ant-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+    flex-wrap: wrap;
+}
+
+.question .ant-card-body label {
+    font-size: 20px;
+}
+
+.question .ant-card-body h3 {
+    font-size: 26px;
+}

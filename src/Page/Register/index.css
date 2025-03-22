@@ -1,0 +1,6 @@
+#register :where(.css-dev-only-do-not-override-1wwf28x).ant-row {
+    display: flex;
+    flex-flow: row wrap;
+    min-width: 0;
+    gap: 20px;
+}
