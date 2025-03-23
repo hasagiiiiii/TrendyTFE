@@ -9,6 +9,7 @@ import UpdateCourse from './PageTeacher/UpdateCourse/UpdateCourse';
 import { Trung } from './class';
 import { Account } from './Model/Account.model';
 import Test from './Common/Component/Test/Test';
+import AccountManager from './PageAdmin/AccountManager/AccountManager';
 const App = () => {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ const App = () => {
           <Routes>
             <Route path="/*" element={<LayoutCommon />}></Route>
             <Route path="/Test" element={<Test />}></Route>
+            <Route path="/Admin" element={<AccountManager />}></Route>
           </Routes>
         </CallVideoContext>
       </AppContext>

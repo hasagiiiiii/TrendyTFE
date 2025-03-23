@@ -54,12 +54,14 @@ const TableCommon = <T extends Record<string, any>>({
       }}
       rowKey={rowKey}
       className="custom-table-wrapper"
-      pagination={pagination ? { position: ['topLeft'] } : false}
+      pagination={
+        pagination ? { position: ['topLeft'], showSizeChanger: true } : false
+      }
       bordered={border}
     >
       <Table.Column
         title={'STT'}
-        render={() => ++a}
+        render={() => a++}
         sorter={(a: { id: number }, b: { id: number }) => a.id - b.id}
       ></Table.Column>
       {columns.map((col, index) => (
@@ -68,6 +70,7 @@ const TableCommon = <T extends Record<string, any>>({
             key={col.key}
             dataIndex={col.dataIndex}
             title={col.title}
+            width={col.width}
             align={col.align}
             sorter={col.sorter}
             onCell={(record) => ({
