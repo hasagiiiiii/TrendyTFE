@@ -6,7 +6,7 @@ import { fetchData } from '../../Hook/useFetch';
 import { Dispatch } from '@reduxjs/toolkit';
 import { NavigateFunction } from 'react-router-dom';
 import ModalCommon from '../../Common/Component/Modal/Modal.component';
-import { QuizzesItem } from '../../PageAdmin/Quizzes/store/Quizzes.store.reducer';
+import { QuizzesItem } from '../../PageTeacher/Quizzes/store/Quizzes.store.reducer';
 
 const QuizzesStudent: React.FC<{
   idCourse: number;

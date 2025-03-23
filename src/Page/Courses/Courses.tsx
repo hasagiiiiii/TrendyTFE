@@ -2,7 +2,7 @@ import { Alert, Button, Col, Flex, Row } from 'antd';
 import React from 'react';
 import Course, { CourseItem } from '../../Common/Component/Course/Course';
 import ModalCommon from '../../Common/Component/Modal/Modal.component';
-import AddCourse from '../../PageAdmin/AddCourse/AddCourse';
+import AddCourse from '../../PageTeacher/AddCourse/AddCourse';
 import axios from 'axios';
 import { fetchData } from '../../Hook/useFetch';
 const Courses = () => {

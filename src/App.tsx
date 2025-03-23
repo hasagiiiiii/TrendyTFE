@@ -5,7 +5,7 @@ import AppContext from './Context/AppContext';
 import CallVideoContext from './Context/CallVideoContext';
 import './App.css';
 import NotFound from './Page/NotFound/NotFound';
-import UpdateCourse from './PageAdmin/UpdateCourse/UpdateCourse';
+import UpdateCourse from './PageTeacher/UpdateCourse/UpdateCourse';
 import { Trung } from './class';
 import { Account } from './Model/Account.model';
 import Test from './Common/Component/Test/Test';
