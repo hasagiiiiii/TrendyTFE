@@ -64,17 +64,21 @@ const LayoutCommon: React.FC = () => {
     // fetchData(`${process.env.REACT_APP_URL_API}profile`, 'GET').then((data) =>
     //   setProFile(data.data)
     // );
-    axios
-      .get(`${process.env.REACT_APP_URL_API}profile`, {
-        withCredentials: true,
-      })
-      .then((data) => {
-        if (data.data.result === 0) {
-          setProFile(data.data.data);
-        }
-      });
+    // axios
+    //   .get(`${process.env.REACT_APP_URL_API}profile`, {
+    //     withCredentials: true,
+    //   })
+    //   .then((data) => {
+    //     if (data.data.result === 0) {
+    //       setProFile(data.data.data);
+    //     }
+    //   });
   }, []);
+
   React.useEffect(() => {
+    const windowFeatures = 'left=100,top=100,width=1000,height=1000';
+    window.open('https://www.mozilla.org/', 'mozillaWindow', windowFeatures);
+
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true); // Nếu scroll > 50px thì thêm class

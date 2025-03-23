@@ -6,6 +6,8 @@ import CallVideoContext from './Context/CallVideoContext';
 import './App.css';
 import NotFound from './Page/NotFound/NotFound';
 import UpdateCourse from './PageAdmin/UpdateCourse/UpdateCourse';
+import { Trung } from './class';
+import { Account } from './Model/Account.model';
 const App = () => {
   return (
     <BrowserRouter>
