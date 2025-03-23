@@ -120,7 +120,6 @@ const CoursesAdmin = () => {
       </Button>
       <TableCommon
         columns={columns}
-        // onRowClick={handleRowClick}
         dataSource={courses}
         onDBClick={hanldeDBClick}
       />

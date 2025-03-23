@@ -76,9 +76,24 @@ const LayoutCommon: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
+    const parram = new URLSearchParams({ isOpem: 'true' }).toString();
     const windowFeatures = 'left=100,top=100,width=1000,height=1000';
-    window.open('https://www.mozilla.org/', 'mozillaWindow', windowFeatures);
+    const popup = window.open(
+      `http://localhost:3000/Test?${parram}`,
+      'Test',
+      windowFeatures
+    );
 
+    const checkPopup = setInterval(() => {
+      if (popup?.closed) {
+        console.log('Dữ liệu từ popup:', (popup as any).retrunValue);
+        clearInterval(checkPopup);
+      }
+    }, 500);
+    // window.addEventListener('message', (event) => {
+    //   if (event.origin !== window.location.origin) return; // Chỉ nhận từ cùng origin
+    //   console.log('Dữ liệu nhận được:', event.data);
+    // });
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true); // Nếu scroll > 50px thì thêm class
