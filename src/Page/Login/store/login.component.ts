@@ -1,6 +1,6 @@
 
 export interface LoginModel {
-    user_name?: string;
+    userName?: string;
     password?: string;
     remember?: string;
 };

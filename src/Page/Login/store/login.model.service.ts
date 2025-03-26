@@ -1,14 +1,14 @@
 import { LoginModel } from "./login.component"
 
 export const LoginService = async (login: LoginModel) => {
-    const response = await fetch('http://localhost:3001/api/login', {
+    const response = await fetch(`${process.env.REACT_APP_URL_API}auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
-            user_name: login.user_name,
+            userName: login.userName,
             password: login.password
         })
     })
