@@ -340,6 +340,9 @@ const LayoutCommon: React.FC = () => {
             position: 'relative',
           }}
         >
+          <Routes>
+            <Route path="Profile" element={<Profile />} />
+          </Routes>
           {user?.role === 'admin' ? (
             <Routes>
               <Route path="About" element={<About />} />

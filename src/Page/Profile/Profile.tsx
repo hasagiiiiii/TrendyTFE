@@ -4,32 +4,54 @@ import { CiBookmark } from 'react-icons/ci';
 import { CiHeart } from 'react-icons/ci';
 import { LuMessageCircle } from 'react-icons/lu';
 import { fetchData } from '../../Hook/useFetch';
+import ModalCommon from '../../Common/Component/Modal/Modal.component';
+import UpdateProfile from '../UpdateProfile/UpdateProfile';
 export interface ProfileModel {
-  full_name: string;
+  fullname: string;
   user_name: string;
   role: string;
   avatar: string;
+  profile: object;
 }
 const Profile = () => {
   const [user, setUser] = React.useState<ProfileModel>();
   React.useEffect(() => {
-    fetchData(`${process.env.REACT_APP_URL_API}profile`, 'GET').then((data) =>
-      setUser(data.data)
+    // Chờ fix user
+    fetchData(`${process.env.REACT_APP_URL_API}profile/${4}`, 'GET').then(
+      (data) => {
+        setUser(data.data.profile);
+      }
     );
   }, []);
+
+  const hanldeUpdateProfile = () => {
+    const updateProfileModal = ModalCommon.Show({
+      content: (
+        <UpdateProfile
+        onSuccess={() => updateProfileModal.destroy()}
+        />
+      ),
+      title: <h1>Update Profile</h1>,
+      width: 1000,
+      afterClose: () => {},
+    });
+  };
+
   return (
     <section className="user-profile">
       <h1 style={{ fontSize: 40 }}>Your Profile</h1>
 
       <div className="info">
         <div className="user">
-          <img
-            src={`${process.env.REACT_APP_UPP_LOAD}${user?.avatar}`}
-            alt=""
-          />
-          <h3>{user?.user_name}</h3>
+          <div className='avatar'>
+            <img
+              src={`${user?.avatar}`}
+              alt=""
+            />
+          </div>
+          <h3>{user?.fullname}</h3>
           <p>{user?.role}</p>
-          <a href="update.html" className="inline-btn">
+          <a onClick={()=>hanldeUpdateProfile()} className="inline-btn">
             update profile
           </a>
         </div>
