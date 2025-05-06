@@ -1,3 +1,27 @@
+.playlist-details {
+    position: relative;
+}
+
+.playlist-details .video {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-details .quizzes {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .playlist-details .row {
     display: flex;
     align-items: flex-end;
@@ -8,7 +32,7 @@
 }
 
 .playlist-details .row .column {
-    flex: 1 1 40rem;
+    flex: 0 0 40rem;
 }
 
 .playlist-details .row .column .save-playlist {
@@ -50,7 +74,7 @@
 }
 
 .playlist-details .row .column .thumb span {
-    font-size: 1.8rem;
+    font-size: 20px;
     color: #fff;
     background-color: rgba(0, 0, 0, .3);
     border-radius: .5rem;
@@ -61,7 +85,7 @@
 }
 
 .playlist-details .row .column .thumb img {
-    height: 30rem;
+    height: 25rem;
     width: 100%;
     object-fit: cover;
     border-radius: .5rem;
@@ -101,6 +125,15 @@
 .playlist-details .row .column .details p {
     padding: 1rem 0;
     line-height: 2;
-    font-size: 1.8rem;
+    font-size: 18px;
     color: var(--light-color);
+}
+
+.playlist-videos .box-container {
+    display: flex;
+    /* grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); */
+    flex: 0 0 20rem;
+    gap: 1.5rem;
+    justify-content: start;
+    align-items: flex-start;
 }

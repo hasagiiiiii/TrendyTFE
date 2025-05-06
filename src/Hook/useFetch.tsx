@@ -1,4 +1,5 @@
 import { clearAllCookies } from '../Common/Function/Cookie';
+import { Result } from '../Model/root.model';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -6,6 +7,7 @@ interface FetchOptions {
   method: HttpMethod;
   headers: HeadersInit;
   body?: string;
+  credentials?: RequestCredentials;
 }
 
 export const fetchData = async (
@@ -21,6 +23,7 @@ export const fetchData = async (
         'Content-Type': 'application/json',
         ...headers,
       },
+      credentials: 'include',
     };
 
     if (data && method !== 'GET') {
@@ -33,7 +36,7 @@ export const fetchData = async (
     }
     let a = await response.json();
     console.log('response', await a);
-    if (a.result === -2) {
+    if (a.result === Result.RESULT_AUTH) {
       window.location.href = '/';
       clearAllCookies();
       setTimeout(() => {
@@ -61,3 +64,41 @@ fetchData.post = (
 
 // POST request
 // fetchData.post<any>('https://api.example.com/data', { key: 'value' }).then(console.log).catch(console.error);
+export const fetchFormData = async (
+  url: string,
+  method: HttpMethod = 'GET',
+  data: any = null,
+  headers: HeadersInit = {}
+): Promise<any> => {
+  try {
+    const options: FetchOptions = {
+      method,
+      headers: {
+        ...headers,
+      },
+      credentials: 'include',
+    };
+
+    if (data && method !== 'GET') {
+      options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let a = await response.json();
+    console.log('response', await a);
+    if (a.result === Result.RESULT_AUTH) {
+      window.location.href = '/';
+      clearAllCookies();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+    return await a;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
+  }
+};

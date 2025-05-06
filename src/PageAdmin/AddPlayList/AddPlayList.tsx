@@ -12,14 +12,19 @@ import {
 import { LessonItem } from '../../Model/PlayList.model';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Dispatch } from '@reduxjs/toolkit';
+import PlaylistAdminStoreReducer from '../PlayListCourse/store/PlaylistAdmin.store.reducer';
 
-const AddPlayList: React.FC<{ idCourse: number; onSucces: Function }> = ({
-  idCourse,
-  onSucces,
-}) => {
+const AddPlayList: React.FC<{
+  idCourse: number;
+  onSucces: Function;
+  dispatch: Dispatch;
+}> = ({ idCourse, onSucces, dispatch }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
+  const [banner, setBanner] = React.useState<UploadFile[]>([]);
   const [file, setFile] = React.useState<File>();
+  const [fileBanner, setFileBanner] = React.useState<File>();
 
   const onFinsh: FormProps<LessonItem>['onFinish'] = () => {
     console.log('Success:');
@@ -28,16 +33,27 @@ const AddPlayList: React.FC<{ idCourse: number; onSucces: Function }> = ({
     formData.append('course_id', idCourse.toString());
     formData.append('title', value.title);
     formData.append('content', value.content);
-    if (file) {
+    if (file && fileBanner) {
       formData.append('video_url', file);
+      formData.append('banner', fileBanner);
     } else {
       message.error('Vui lòng chọn một file hợp lệ!');
       return;
     }
-    axios.post(`http://localhost:3001/course/lesson`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true,
-    });
+    axios
+      .post(`http://localhost:3001/course/lesson`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.result == 0) {
+          dispatch(PlaylistAdminStoreReducer.actions.insert(res.data.data));
+          onSucces();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const onFinishFailed = () => {
     console.log('Failed:');
@@ -57,6 +73,31 @@ const AddPlayList: React.FC<{ idCourse: number; onSucces: Function }> = ({
       const preview = URL.createObjectURL(file);
       setFile(file);
       setFileList([
+        {
+          uid: `${Date.now()}`, // Fix lỗi uid không tồn tại
+          name: file.name,
+          status: 'done',
+          url: preview,
+          fileName: file.name,
+        },
+      ]);
+      return isImageOrVideo; // Chỉ cho phép upload nếu là ảnh hoặc video
+    }
+  };
+  const beforeUploadBanner = (file: File) => {
+    if (banner.length > 0) {
+      message.error('Chỉ được upload tối đa 1 file!');
+      return false;
+    } else {
+      const isImageOrVideo =
+        file.type?.startsWith('image/') || file.type?.startsWith('video/');
+      if (!isImageOrVideo) {
+        message.error('Chỉ được phép upload ảnh hoặc video!');
+        return false;
+      }
+      const preview = URL.createObjectURL(file);
+      setFileBanner(file);
+      setBanner([
         {
           uid: `${Date.now()}`, // Fix lỗi uid không tồn tại
           name: file.name,
@@ -91,6 +132,7 @@ const AddPlayList: React.FC<{ idCourse: number; onSucces: Function }> = ({
       >
         <Input.TextArea />
       </Form.Item>
+      <Typography.Text>Video</Typography.Text>
       <Form.Item<LessonItem>
         name="video_url"
         rules={[{ required: true, message: 'Please input Description!' }]}
@@ -102,6 +144,24 @@ const AddPlayList: React.FC<{ idCourse: number; onSucces: Function }> = ({
           customRequest={handleCustomRequest}
           fileList={fileList as UploadFile[]}
           onRemove={() => setFileList([])} // Xóa file khi bấm remove
+        >
+          <Button type="primary" icon={<UploadOutlined />}>
+            Upload
+          </Button>
+        </Upload>
+      </Form.Item>
+      <Typography.Text>Banner</Typography.Text>
+      <Form.Item<LessonItem>
+        name="banner"
+        rules={[{ required: true, message: 'Please choose Banner!' }]}
+      >
+        <Upload
+          beforeUpload={beforeUploadBanner}
+          accept="image/*,video/*"
+          listType="picture"
+          customRequest={handleCustomRequest}
+          fileList={banner as UploadFile[]}
+          onRemove={() => setBanner([])} // Xóa file khi bấm remove
         >
           <Button type="primary" icon={<UploadOutlined />}>
             Upload

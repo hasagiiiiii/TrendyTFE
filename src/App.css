@@ -4,6 +4,10 @@ html::-webkit-scrollbar {
     border-radius: 20px 20px;
 }
 
+body #webpack-dev-server-client-overlay-div {
+    display: none !important;
+}
+
 html::-webkit-scrollbar-track {
     background-color: transparent;
 }
@@ -37,4 +41,20 @@ body {
 
 .ant-modal-confirm-title {
     background-color: var(--main-color);
+}
+
+/* .anticon.anticon-check-circle {
+    flex: none;
+    font-size: 22px;
+    height: 88px;
+    background: var(--main-color);
+    margin: 0 !important;
+} */
+
+/* .anticon.anticon-check-circle svg {
+    transform: translateX(20px);
+} */
+
+.ant-modal-confirm-btns button {
+    margin: 20px;
 }

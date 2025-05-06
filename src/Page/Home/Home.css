@@ -1,3 +1,84 @@
-#home .ant-row .ant-col {
-    padding: 4px 4px !important;
+.home-grid .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 20rem);
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.home-grid .box-container .box {
+    background-color: var(--white);
+    border-radius: .5rem;
+    padding: 2rem;
+}
+
+.home-grid .box-container .box .title {
+    font-size: 24px;
+    color: var(--black);
+    text-transform: capitalize;
+}
+
+.home-grid .box-container .box .flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.home-grid .box-container .box a {
+    padding: 10px 20px !important;
+}
+
+.home-grid .box-container .flex a {
+    background-color: var(--light-bg);
+    border-radius: 3px;
+    padding: 8px 8px 8px 0px !important;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.home-grid .box-container .flex a svg {
+    color: var(--light-color);
+    margin: 0px 10px;
+
+}
+
+.home-grid .box-container .flex a i {
+    margin-right: 1rem;
+    color: var(--black);
+}
+
+.home-grid .box-container .flex a span {
+    color: var(--light-color);
+}
+
+.home-grid .box-container .flex a:hover {
+    background-color: var(--black);
+}
+
+.home-grid .box-container .flex a:hover span {
+    color: var(--white);
+}
+
+.home-grid .box-container .flex a:hover i {
+    color: var(--white);
+}
+
+.home-grid .box-container .tutor {
+    padding: 1rem 0;
+    font-size: 16px;
+    color: var(--light-color);
+    line-height: 2;
+}
+
+.home-grid .box-container .likes {
+    color: var(--light-color);
+    font-size: 20px;
+    margin-top: 1.5rem;
+}
+
+.home-grid .box-container .likes span {
+    color: var(--main-color);
 }

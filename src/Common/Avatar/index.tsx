@@ -19,10 +19,9 @@ interface ExtendedHTMLVideoElement extends HTMLVideoElement {
 }
 
 const Avatar: React.FC<AvatarProps> = React.memo(
-  ({ stream, userName = 'T', userId }) => {
+  ({ stream, userName = 'T', userId, socket }) => {
     const videoRef = React.useRef<ExtendedHTMLVideoElement>(null);
     const activeRef = React.useRef<boolean>(true);
-    const { socket } = useSocket('/call');
 
     console.log(stream);
     React.useEffect(() => {

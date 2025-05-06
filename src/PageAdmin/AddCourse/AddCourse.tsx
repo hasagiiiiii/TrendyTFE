@@ -15,6 +15,7 @@ import axios from 'axios';
 import getCookie from '../../Common/Function/Cookie';
 import { Dispatch } from '@reduxjs/toolkit';
 import CourseStoreReducer from '../CoursesAdmin/store/Course.store.reducer';
+import { getLocalStorage } from '../../Common/Function/LocalStorage';
 export interface AddCourseModel {
   title: string;
   description: string;
@@ -30,7 +31,7 @@ const AddCourse: React.FC<{ onSucces: Function; dispatch: Dispatch<any> }> = ({
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
   const [file, setFile] = React.useState<File>();
   const [category, setCategory] = React.useState<[]>();
-  const user = JSON.parse(getCookie('user'));
+  const user = getLocalStorage('user');
   React.useEffect(() => {
     console.log(user.id);
     axios

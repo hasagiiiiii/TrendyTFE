@@ -12,21 +12,25 @@ import './index.css';
 import useSocket from '../../Hook/useSocket';
 import { useSelector } from 'react-redux';
 import { getRoomSelect } from '../../Store/Room/room.store.selector';
+import { Button } from 'antd';
+import getCookie from '../../Common/Function/Cookie';
 
 const VideoCall: React.FC = () => {
   const [peerScreen, setPeerScreen] = useState<Peer | null>(null);
   const [toggleMic, setToggleMic] = useState<boolean>(false);
   const [toggleCamera, setToggleCamera] = useState<boolean>(false);
+  const [courseID, setCourseID] = useState<any>();
   const VideoRef = useRef<Record<string, MediaStream>>({});
   const [shareScreenTrack, setShareScreenTrack] = useState<MediaStream | null>(
     null
   );
-  const roomId: number = useSelector(getRoomSelect);
+
   const [fullScreen, setFullScreen] = useState<number>(1);
   const { hanldeToggleCamera, hanldetoggleMic, hanldeShareScreen } =
     React.useContext(CallVideoContextAPI)!;
   const navigate = useNavigate();
-
+  React.useEffect(() => {}, []);
+  console.log(courseID);
   // useEffect(() => {
   //   if (socket) {
   //     socket.on('createRoomResponse', (idRoom: number) => {
@@ -62,17 +66,18 @@ const VideoCall: React.FC = () => {
     gridVideo?.append(video);
   };
 
-  console.log('video call');
   return (
     <div>
-      <div className="function">
-        <button onClick={() => hanldeShareScreen()}>Share Screen</button>
-        <button onClick={() => hanldetoggleMic(setToggleMic, toggleMic)}>
-          {toggleMic ? <FaMicrophoneSlash /> : <IoIosMic />}
-        </button>
-        <button onClick={() => hanldeToggleCamera(roomId)}>
+      <div className="function flex">
+        <Button onClick={() => hanldeShareScreen(courseID)}>
+          Share Screen
+        </Button>
+        <Button onClick={() => hanldetoggleMic(setToggleMic, toggleMic)}>
+          {toggleMic ? <FaMicrophoneSlash size={30} /> : <IoIosMic />}
+        </Button>
+        <Button onClick={() => hanldeToggleCamera(courseID)}>
           Toggle Camera
-        </button>
+        </Button>
       </div>
       <div id="gridVideo"></div>
     </div>

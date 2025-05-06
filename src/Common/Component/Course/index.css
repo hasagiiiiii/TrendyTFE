@@ -1,18 +1,21 @@
 .box {
     border-radius: .5rem;
     background-color: var(--white);
+    padding: 10px;
 }
 
 .box .tutor {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .box .tutor img {
     border-radius: 50%;
     object-fit: cover;
+    height: 50px;
+    width: 50px;
 }
 
 .box .tutor h3 {
@@ -42,9 +45,9 @@
 }
 
 .box .thumb img {
-    width: 100%;
+    width: 250px;
     height: 12rem;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: .5rem;
 }
 
@@ -52,9 +55,9 @@
     font-size: 20px;
     color: var(--black);
     padding-bottom: .5rem;
-    padding-top: 1rem;
 }
 
 .box .inline-btn {
-    padding: 10px 20px;
+    padding: 20px 40px;
+    display: flex;
 }

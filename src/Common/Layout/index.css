@@ -71,6 +71,7 @@
 
 .ant-breadcrumb {
     padding: 10px 20px;
+    background-color: var(--white);
 }
 
 :where(.css-dev-only-do-not-override-1wwf28x).ant-breadcrumb ol {
@@ -342,4 +343,8 @@
 .header .flex .profile .flex-btn .option-btn {
     padding: 10px 10px;
     line-height: 40px;
+}
+
+.ant-layout-content {
+    background-color: var(--light-bg) !important;
 }

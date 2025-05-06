@@ -15,6 +15,7 @@ const Login: React.FC<{
     const value = form.getFieldsValue();
     LoginService(value).then((data) => {
       document.cookie = `user = ${JSON.stringify(data.data)};path=/`;
+      // localStorage.setItem('user', JSON.stringify(data.data));
       setUser(data.data);
     });
     setSpin(true);

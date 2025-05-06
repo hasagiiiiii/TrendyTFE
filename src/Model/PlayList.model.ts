@@ -4,6 +4,7 @@ export interface LessonItem {
     title: string
     video_url: string,
     content: string
+    banner: string
     order_index: number,
     create_at: Date
 }

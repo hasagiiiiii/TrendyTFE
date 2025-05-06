@@ -111,6 +111,7 @@ const Chat: React.FC = () => {
           </div>
         </div>
       ))}
+      
       <div className="input">
         <Form onFinish={onFinish} form={form}>
           <Form.Item name="message">

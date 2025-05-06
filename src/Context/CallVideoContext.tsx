@@ -9,9 +9,10 @@ import Peer, { MediaConnection } from 'peerjs';
 import useSocket from '../Hook/useSocket';
 import Avatar from '../Common/Avatar';
 import ReactDOM from 'react-dom';
-import { Socket } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { getRoomSelect } from '../Store/Room/room.store.selector';
+import getCookie from '../Common/Function/Cookie';
 
 // Define types for context state
 interface CallVideoContextType {
@@ -43,13 +44,18 @@ const CallVideoContext = ({ children }: CallVideoContextProps) => {
   const [peer, setPeer] = useState<Peer | null>(null);
   const [myStream, setMyStream] = useState<MediaStream | null>(null); // Added state for media stream
   const [myPeerID, setMyPeerID] = useState<string>('');
+  const [socket, setSocket] = useState<Socket | null>(null);
   const VideoRef = useRef<{ [key: string]: MediaStream }>({}); // Ref to store user video streams
-  const { socket } = useSocket('/call');
   const [peerInRooms, setPeerInRoom] = useState<PeerConnections>({});
-  const room = useSelector(getRoomSelect);
+  const room = getCookie('idCourse');
+
   console.log(room);
   useEffect(() => {
-    socket?.on('connect', () => {});
+    const newSocket = io('http://localhost:3001/', {
+      // connect to socket Server
+      transports: ['websocket'],
+    });
+    setSocket(newSocket);
   }, []);
   useEffect(() => {
     if (socket) {
@@ -82,7 +88,7 @@ const CallVideoContext = ({ children }: CallVideoContextProps) => {
         console.log(videoFullScreen);
       });
     }
-  }, [peer]);
+  }, [peer, socket]);
   console.log(VideoRef.current);
   const connectToNewUser = (
     userId: string,
@@ -90,6 +96,7 @@ const CallVideoContext = ({ children }: CallVideoContextProps) => {
     peer: Peer
   ) => {
     if (userId && !peerInRooms[userId]) {
+      console.log('connect stream');
       const call = peer.call(userId, stream);
       const video = document.createElement('video');
       call.on('stream', (userVideoStream: MediaStream) => {
@@ -117,6 +124,7 @@ const CallVideoContext = ({ children }: CallVideoContextProps) => {
     }
   };
   const handleJoinRoom = (roomId: string): void => {
+    console.log('vao joinRoom');
     const myPeer = new Peer({
       host: 'localhost',
       port: 9000,
@@ -124,6 +132,7 @@ const CallVideoContext = ({ children }: CallVideoContextProps) => {
       // secure: true, // Uncomment for HTTPS
     });
     setPeer(myPeer);
+    console.log(myPeer);
     myPeer.on('open', (id: string) => {
       console.log('My peer ID is: ' + id);
       try {
@@ -133,7 +142,7 @@ const CallVideoContext = ({ children }: CallVideoContextProps) => {
       }
       // Emit the event with two arguments
       if (socket) {
-        socket.emit('joinRoom', { idUser: id, roomId });
+        socket.emit('joinCourse', id, roomId);
         console.log('Emitting joinRoom event:', { idUser: id, roomId: roomId }); // Ensure this matches the expected signature on the server
         setupVideoStream(myPeer, id);
       }

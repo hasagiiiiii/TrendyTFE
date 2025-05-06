@@ -4,10 +4,12 @@ export interface BaseI {
     data: any
 }
 
-export interface Result {
-    RESULT_SUCCESS: 0,
-    RESULT_ERROR: 1,
-    ReSULT_Falure: 2
+export enum Result {
+    RESULT_SUCCESS,
+    RESULT_ERROR,
+    RESULT_FALURE = -1,
+    RESULT_AUTH = -2
+
 }
 
 export interface AppContextProps {
@@ -23,3 +25,23 @@ export interface AppContextProps {
 export interface BreadCumpItem {
     title: string | React.ReactNode;
 }
+
+export interface AcountModel {
+    id: number,
+    full_name: string,
+    user_name: string,
+    password: string,
+    role: string,
+    avartar: string,
+    create_at: string
+}
+
+export const OPTION_ROLE = [{
+    value: 'student', lable: 'Student',
+},
+{
+    value: 'teacher', lable: 'Teacher',
+},
+{
+    value: 'admin', lable: 'Admin',
+}]

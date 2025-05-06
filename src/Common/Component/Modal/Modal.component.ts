@@ -21,7 +21,7 @@ const ModalCommon = {
     },
     showSucce(data: ModalOption) {
         Modal.success({
-            title: data.title, content: data.content, onOk: data.onOk, onCancel: data.onCancel, afterClose: data.afterClose
+            title: data.title, content: data.content, onOk: data.onOk, onCancel: data.onCancel, afterClose: data.afterClose, width: data.width
 
         })
     },

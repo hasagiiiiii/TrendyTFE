@@ -30,11 +30,26 @@ import CoursesAdmin from '../../PageAdmin/CoursesAdmin/CoursesAdmin';
 import Course from '../Component/Course/Course';
 import HomeAdmin from '../../PageAdmin/HomeAdmin/HomeAdmin';
 import PlayListCourse from '../../PageAdmin/PlayListCourse/PlayListCourse';
+import { getLocalStorage } from '../Function/LocalStorage';
+import LessonAdmin from '../../PageAdmin/Lesson';
+import About from '../../Page/About/About';
+import Teacher from '../../Page/Teacher/Teacher';
+import Contact from '../../Page/Contact/Contact';
+import Profile, { ProfileModel } from '../../Page/Profile/Profile';
+import { fetchData } from '../../Hook/useFetch';
+import VideoCall from '../../Page/VideoCall';
+import Question from '../../PageAdmin/Question/Question';
+import axios from 'axios';
+import Courses from '../../Page/Courses/Courses';
+import PlayListStudent from '../../Page/PlayListStudent/PlayListStudent';
+import LessonStudent from '../../Page/LessonStudent/LessonStudent';
+import QuestionStudent from '../../Page/QuestionStudent/QuestionStudent';
+import AccountManager from '../../PageAdmin/AccountManager';
+import TeacherManager from '../../PageAdmin/TeacherManager';
 const { Header, Sider, Content } = Layout;
 const LayoutCommon: React.FC = () => {
   const { setLogin, Logout, spin, setSpin } = React.useContext(AppContextAPI);
   const call = useContext(CallVideoContextAPI);
-  const [listRoom, setListRoom] = React.useState<GetAddRoomModel[] | []>([]);
   const location = useLocation();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [breadCump, setBreadCump] = useState<BreadCumpItem[]>([]);
@@ -43,9 +58,22 @@ const LayoutCommon: React.FC = () => {
   const navigate = useNavigate();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [profile, setProFile] = React.useState<ProfileModel>();
   const dispatch = useDispatch();
   React.useEffect(() => {
     setUser(JSON.parse(getCookie('user')));
+    // fetchData(`${process.env.REACT_APP_URL_API}profile`, 'GET').then((data) =>
+    //   setProFile(data.data)
+    // );
+    axios
+      .get(`${process.env.REACT_APP_URL_API}profile`, {
+        withCredentials: true,
+      })
+      .then((data) => {
+        if (data.data.result === 0) {
+          setProFile(data.data.data);
+        }
+      });
   }, []);
   React.useEffect(() => {
     const handleScroll = () => {
@@ -61,7 +89,7 @@ const LayoutCommon: React.FC = () => {
         if (index === 0) {
           return { title: <Link to="">Home</Link> };
         } else {
-          return { title: item };
+          return { title: decodeURIComponent(item) };
         }
       });
     });
@@ -132,53 +160,88 @@ const LayoutCommon: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  console.log('message', listRoom);
-
   return (
     <Layout onMouseDown={handleMouseDown} hasSider={true}>
       <Sider className="sider" trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
         <div className="profile">
-          <img src={pic1} className="image" alt="" />
-          <h3 className="name">TrunLiver</h3>
+          <img
+            src={
+              profile
+                ? `${process.env.REACT_APP_UPP_LOAD}${profile.avatar}`
+                : pic1
+            }
+            className="image"
+            alt=""
+          />
+          <h3 className="name">{profile ? profile.user_name : ''}</h3>
           <p className="role">{user?.role}</p>
-          <Link to="profile.html" className="btn">
+          <Link to="/Profile" className="btn">
             view profile
           </Link>
         </div>
 
-        <nav className="navbar">
-          <Link to="home.html">
-            <div className="flex">
-              <IoMdHome size={25} />
-              <span>Home</span>
-            </div>
-          </Link>
-          <Link to="about.html">
-            <div className="flex">
-              <FaQuestion size={25} />
-              <span>About</span>
-            </div>
-          </Link>
-          <Link to="/courses">
-            <div className="flex">
-              <FaGraduationCap size={25} />
-              <span>Courses</span>
-            </div>
-          </Link>
-          <Link to="teachers.html">
-            <div className="flex">
-              <FaPersonChalkboard size={25} />
-              <span>Teachers</span>
-            </div>
-          </Link>
-          <Link to="contact.html">
-            <div className="flex">
-              <MdContactMail size={25} />
-              <span>Contact us</span>
-            </div>
-          </Link>
-        </nav>
+        {user?.role !== 'admin' ? (
+          <nav className="navbar">
+            <Link to="/">
+              <div className="flex">
+                <IoMdHome size={25} />
+                <span>Home</span>
+              </div>
+            </Link>
+            <Link to="/About">
+              <div className="flex">
+                <FaQuestion size={25} />
+                <span>About</span>
+              </div>
+            </Link>
+            <Link to="/courses">
+              <div className="flex">
+                <FaGraduationCap size={25} />
+                <span>Courses</span>
+              </div>
+            </Link>
+            <Link to="/Teachers">
+              <div className="flex">
+                <FaPersonChalkboard size={25} />
+                <span>Teachers</span>
+              </div>
+            </Link>
+            <Link to="/Contact">
+              <div className="flex">
+                <MdContactMail size={25} />
+                <span>Contact us</span>
+              </div>
+            </Link>
+          </nav>
+        ) : (
+          <nav className="navbar">
+            <Link to="/">
+              <div className="flex">
+                <IoMdHome size={25} />
+                <span>Home</span>
+              </div>
+            </Link>
+            <Link to="/About">
+              <div className="flex">
+                <FaQuestion size={25} />
+                <span>About</span>
+              </div>
+            </Link>
+            <Link to="/Teachers">
+              <div className="flex">
+                <FaPersonChalkboard size={25} />
+                <span>Teachers</span>
+              </div>
+            </Link>
+            <Link to="/Contact">
+              <div className="flex">
+                <MdContactMail size={25} />
+                <span>Contact us</span>
+              </div>
+            </Link>
+          </nav>
+        )}
       </Sider>
       <Layout>
         <Header className={`${isScrolled ? 'scroll' : ''} header`}>
@@ -259,11 +322,48 @@ const LayoutCommon: React.FC = () => {
             position: 'relative',
           }}
         >
-          {user?.role === 'student' ? <Home /> : undefined}
+          {user?.role === 'admin' ? (
+            <Routes>
+              <Route path="About" element={<About />} />
+              <Route path="Teachers" element={<TeacherManager />} />
+              <Route path="Students" element={<AccountManager />} />
+              <Route path="Contact" element={<Contact />} />
+              <Route path="Profile" element={<Profile />} />
+              <Route index element={<Home />} />
+              <Route path="VideoCall" element={<VideoCall />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          ) : undefined}
+          {user?.role === 'student' ? (
+            <Routes>
+              <Route path="About" element={<About />} />
+              <Route path="Teachers" element={<Teacher />} />
+              <Route path="Contact" element={<Contact />} />
+              <Route path="Profile" element={<Profile />} />
+              <Route index element={<Home />} />
+              <Route path="VideoCall" element={<VideoCall />} />
+              <Route path="courses" element={<Courses />} />
+              <Route path="courses/:id" element={<PlayListStudent />}></Route>
+              <Route path="courses/:id/:ls" element={<LessonStudent />} />
+              <Route path="courses/:id/Quizzes" element={<QuestionStudent />} />
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          ) : undefined}
           {user?.role === 'teacher' ? (
             <Routes>
               <Route path="courses" element={<CoursesAdmin />} />
               <Route path="courses/:id" element={<PlayListCourse />}></Route>
+              <Route path="courses/:id/:ls" element={<LessonAdmin />} />
+              <Route path="courses/:id/Quizzes" element={<Question />} />
+              <Route path="About" element={<About />} />
+              <Route path="Teachers" element={<Teacher />} />
+              <Route path="Contact" element={<Contact />} />
+              <Route path="Profile" element={<Profile />} />
+              <Route index element={<Home />} />
+              <Route path="VideoCall" element={<VideoCall />} />
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
           ) : undefined}
           {/* <Route path="*" element={<NotFound />} /> */}

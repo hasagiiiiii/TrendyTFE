@@ -25,6 +25,7 @@ interface CommonTableProps<T> {
   loading?: boolean;
   onRowClick?: (record: T, index: number) => void;
   onDBClick?: (record: T, index: number) => void;
+  emtyText?: string;
 }
 const TableCommon = <T extends Record<string, any>>({
   columns,
@@ -36,25 +37,36 @@ const TableCommon = <T extends Record<string, any>>({
   loading = false,
   onRowClick,
   onDBClick,
+  emtyText,
 }: CommonTableProps<T>) => {
-  const rowHeight = 55; // ✅ Giả sử mỗi hàng cao khoảng 48px
+  const rowHeight = 55;
   const maxVisibleRows = height ? Math.floor(height / rowHeight) : 0;
   const shouldScroll = height && dataSource.length > maxVisibleRows;
-
+  let a: number = 0;
   return (
     <Table
       loading={loading}
       scroll={shouldScroll ? { y: height } : undefined}
       style={{ minHeight: height }}
       dataSource={dataSource}
-      rowKey={rowKey}
+      locale={{
+        emptyText: emtyText,
+      }}
+      key={rowKey}
+      rowKey={(record) => record.id}
       className="custom-table-wrapper"
       pagination={pagination ? { position: ['topLeft'] } : false}
       bordered={border}
     >
-      {columns.map((col) => (
+      <Table.Column
+        title={'STT'}
+        render={(_, __, index) => <p key={index}>{index + 1}</p>}
+        sorter={(a: { id: number }, b: { id: number }) => a.id - b.id}
+        key={++a}
+      ></Table.Column>
+      {columns.map((col, index) => (
         <Table.Column
-          key={col.key}
+          key={index}
           dataIndex={col.dataIndex}
           title={col.title}
           align={col.align}

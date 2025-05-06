@@ -11,69 +11,86 @@ import CourseStoreReducer from './store/Course.store.reducer';
 import { getCourse } from './store/Course.store.selector';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-const columns = [
-  {
-    title: 'STT',
-    dataIndex: 'id',
-    key: 'id',
-    sorter: (a: { id: number }, b: { id: number }) => a.id - b.id, // ✅ Sắp xếp theo số
-  },
-  {
-    title: 'thumbnail',
-    dataIndex: 'thumbnail',
-    key: 'thumbnail',
-    render: (img: string) => {
-      return (
-        <img
-          width={40}
-          height={40}
-          src={`http://localhost:3001/uploads/${img}`}
-          alt="icon"
-        />
-      );
-    },
-  },
-  {
-    title: 'title',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: 'created_at',
-    dataIndex: 'created_at',
-    key: 'created_at',
-    render: (date: string) => {
-      let da = new Date(date).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      });
-      return <p>{da}</p>;
-    },
-  },
-];
 
 const CoursesAdmin = () => {
+  const columns = [
+    // {
+    //   title: 'STT',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    //   sorter: (a: { id: number }, b: { id: number }) => a.id - b.id, // ✅ Sắp xếp theo số
+    // },
+    {
+      title: 'title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'thumbnail',
+      dataIndex: 'thumbnail',
+      key: 'thumbnail',
+      render: (img: string) => {
+        return (
+          <img
+            width={40}
+            height={40}
+            src={`http://localhost:3001/uploads/${img}`}
+            alt="icon"
+          />
+        );
+      },
+    },
+
+    {
+      title: 'created_at',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (date: string) => {
+        let da = new Date(date).toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        });
+        return <p>{da}</p>;
+      },
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+      render: (text: any, record: CourseItem) => (
+        <div className="flex">
+          <Button
+            onClick={() => handleRowClick(record)}
+            style={{ marginRight: 10 }}
+          >
+            Update
+          </Button>
+          <Button onClick={() => handleRowClick(record)}>Delete</Button>
+        </div>
+      ),
+    },
+  ];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const courses = useSelector(getCourse);
-  const handleRowClick = (record: CourseItem, index: number): void => {
-    // let update = ModalCommon.Show({
-    //   title: <h1>Update Course</h1>,
-    //   content: (
-    //     <UpdateCourse
-    //       dispatch={dispatch}
-    //       onSucces={() => update.destroy()}
-    //       course={record}
-    //     />
-    //   ),
-    // });
+  const handleRowClick = (record: CourseItem): void => {
+    let update = ModalCommon.Show({
+      title: <h1>Update Course</h1>,
+      content: (
+        <UpdateCourse
+          dispatch={dispatch}
+          onSucces={() => update.destroy()}
+          course={record}
+        />
+      ),
+    });
     console.log('Bạn đã click vào hàng:', record);
-    navigate(`${record.title.trim()}`);
-    document.cookie = `idCourse=${record.id};path=/courses`;
   };
   const hanldeDBClick = (record: CourseItem, index: number) => {
     console.log(record);
+    document.cookie = `idCourse=${record.id};path=/`;
+    navigate(`${record.title.trim()}`);
   };
   const hanldeRegister = () => {
     const Course = ModalCommon.Show({
@@ -86,7 +103,7 @@ const CoursesAdmin = () => {
   };
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_URL_API}coursebyID`, {
+      .get(`${process.env.REACT_APP_URL_API}coursebyIDUser`, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       })
@@ -103,7 +120,7 @@ const CoursesAdmin = () => {
       </Button>
       <TableCommon
         columns={columns}
-        onRowClick={handleRowClick}
+        // onRowClick={handleRowClick}
         dataSource={courses}
         onDBClick={hanldeDBClick}
       />

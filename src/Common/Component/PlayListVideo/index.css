@@ -1,0 +1,43 @@
+ .box {
+     background-color: var(--white);
+     border-radius: .5rem;
+     padding: 2rem;
+     position: relative;
+ }
+
+ .box .play {
+     position: absolute;
+     top: 10px;
+     left: 11px;
+     right: 11px;
+     height: 17rem;
+     border-radius: .5rem;
+     background-color: rgba(0, 0, 0, .3);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 5rem;
+     color: #fff;
+     display: none;
+ }
+
+ .box:hover .play {
+     display: flex;
+ }
+
+ .box img {
+     width: 100%;
+     height: 17rem;
+     object-fit: cover;
+     border-radius: .5rem;
+ }
+
+ .box h3 {
+     margin-top: 1.5rem;
+     font-size: 1.8rem;
+     color: var(--black);
+ }
+
+ .box:hover h3 {
+     color: var(--main-color);
+ }
