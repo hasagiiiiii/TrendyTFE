@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { AuthRequest } from "../MiddleWare/auth.middleware";
-import { InsertCourse, SelectCourseByID, SelectCourses, UpdateCourse } from "../Controller/Course.controller";
+import { InsertCourse, SelectCourseByID, SelectCourseByIDUser, SelectCourses, UpdateCourse } from "../Controller/Course.controller";
+import { getQuizzes } from "../Controller/Quizzes.controller";
 
 export const Courses = Router();
 
@@ -16,12 +17,25 @@ Courses.get('/course', async (req: AuthRequest, res: Response): Promise<any> => 
 
     }
 })
-Courses.get('/coursebyID', async (req: AuthRequest, res: Response): Promise<any> => {
+Courses.get('/coursebyIDUser', async (req: AuthRequest, res: Response): Promise<any> => {
     try {
         if (!req.user) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-        const course = await SelectCourseByID(req.user.id)
+        const course = await SelectCourseByIDUser(req.user.id)
+        return res.status(200).json({ message: 'Thành công', data: course, result: 0 })
+    } catch (e) {
+        return res.status(401).json({ message: 'Thất bại', result: -1 })
+
+    }
+})
+Courses.post('/getCourseByID', async (req: AuthRequest, res: Response): Promise<any> => {
+    const { idCourse } = req.body
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+        const course = await SelectCourseByID(idCourse)
         return res.status(200).json({ message: 'Thành công', data: course, result: 0 })
     } catch (e) {
         return res.status(401).json({ message: 'Thất bại', result: -1 })

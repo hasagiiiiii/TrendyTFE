@@ -14,4 +14,5 @@ export interface LessonItemUpdate {
     course_id: number
     video_url: string
     order_index: number
+    banner: string
 }

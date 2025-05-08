@@ -39,11 +39,18 @@ export const SelectCourses = async () => {
     const res = await runQuery(query, [])
     return res?.rows
 }
-export const SelectCourseByID = async (idUser: number) => {
+export const SelectCourseByIDUser = async (idUser: number) => {
     const query = `
     SELECT * FROM courses WHERE teacher_id = $1 ORDER BY id ASC
     `;
     const res = await runQuery(query, [idUser]);
+    return res?.rows;
+}
+export const SelectCourseByID = async (idCourse: number) => {
+    const query = `
+   Select courses.id,courses.title,courses.description,courses.category,courses.created_at,courses.thumbnail,courses.price,users.user_name,users.avatar from courses JOIN users on courses.teacher_id = users.id Where courses.id = $1  ORDER BY courses.id ASC
+    `;
+    const res = await runQuery(query, [idCourse]);
     return res?.rows;
 }
 export const DeleteCourse = async (idCourse: number) => {

@@ -7,10 +7,16 @@ import * as env from "dotenv"
 import multer, { FileFilterCallback } from "multer";
 import { verifyTokenMiddleware } from "./MiddleWare/auth.middleware";
 import path from "path";
+import { Server, Socket } from "socket.io";
 import fs from "fs";
 import { Courses } from "./Router/Courses.router";
 import { Category } from "./Router/Category.router";
 import { LessonRouter } from "./Router/Lesson.router";
+import { UserRouter } from "./Router/User.router";
+import { Quizzes } from "./Router/Quizzes.router";
+import { QuestionRouter } from "./Router/Question.router";
+import { EnrollmentRouter } from "./Router/Enrollments.router";
+import { Answer } from "./Router/Answer.router";
 const app = express()
 const server = http.createServer(app)
 const port = 3001
@@ -20,6 +26,19 @@ const corsOptions = {
     credentials: true, // cookie, HTTP Authentication
     optionsSuccessStatus: 204,
 };
+// const corsOptions = {
+//     origin: ["http://192.168.2.10", 'http://trendyt'], // địa chỉ thật frontend đang gọi API
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true,
+//     optionsSuccessStatus: 204,
+// };
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000", // Phải khớp với client
+        methods: ["GET", "POST"], // Chỉ định các phương thức được phép
+        credentials: true,
+    },
+});
 env.config()
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -51,13 +70,18 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage, fileFilter });
+export const upload = multer({ storage, fileFilter });
 app.use("/api", AuthRouter, Category)
-app.use('/api', upload.single("thumbnail"), verifyTokenMiddleware, Courses)
-app.use('/course', upload.single("video_url"), verifyTokenMiddleware, LessonRouter)
+app.use('/api', upload.single("thumbnail"), verifyTokenMiddleware, Quizzes, QuestionRouter, Courses, EnrollmentRouter, Answer)
+// app.use('/course', upload.single("video_url"), verifyTokenMiddleware, LessonRouter)
+app.use('/api/course', upload.fields([
+    { name: "video_url", maxCount: 1 },
+    { name: "banner", maxCount: 1 }
+]), verifyTokenMiddleware, LessonRouter);
 app.get('/test', (req: any, res: any) => {
     res.status(200).json({ message: 'Test' })
 })
+app.use('/user', upload.single("avartar"), verifyTokenMiddleware, UserRouter)
 // ✅ Sử dụng upload.single() trong `app.post()`, không dùng `app.use()`
 app.post("/upload", upload.single("file"), (req: Request, res: Response): any => {
     if (!req.file) {
@@ -65,7 +89,48 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response): any =>
     }
     res.json({ url: `http://localhost:${port}/uploads/${req.file.filename}` });
 });
-app.use("/uploads", express.static(UPLOADS_DIR));
+app.use("/uploads", cors(corsOptions), express.static(UPLOADS_DIR));
+
+
+
+io.on("connection", (socket) => { // connect
+    console.log('user connect');
+    // socket.on("createRoom", (idUser) => {
+
+    //     socket.emit("createRoomResponse", Room);
+    //     socket.join(Room)
+
+    // });
+
+    socket.on("joinCourse", (idUser, courseId) => {
+        console.log('idJoin', idUser);
+        socket.join(courseId);
+        socket.to(courseId).emit('userconnected', idUser);
+        console.log(`User ${idUser} joined room ${courseId}`);
+    })
+    socket.on("toggleCamera", (idUser, courseId, isActiveCamera) => {
+        socket.broadcast.to(courseId).emit("toggleCameraInRoom", idUser, isActiveCamera)
+    })
+
+    socket.on("toggleMic", (idUser, courseId, isActiveMic) => {
+        socket.broadcast.to(courseId).emit("toggleMicInRoom", idUser, isActiveMic)
+    })
+    socket.on("shareScreen", (idUser, courseId) => {
+        socket.broadcast.to(courseId).emit("shareScreen", idUser)
+        console.log("User Share Screen", idUser)
+    })
+    // socket.on("shareScreen",(idUser,roomId,screenStream)=>{
+    //     socket.broadcast.to(roomId).emit("shareScreenInRoom",idUser,screenStream)
+    //     console.log("ShareScreen",screenStream)
+    // })  
+    // socket.on("stopShareScreen",(idUser,roomId)=>{
+    //     socket.broadcast.to(roomId).emit("stopShareScreenInRoom",idUser)
+    // })
+    socket.on("disconnect", () => {
+    });
+});
+
+
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
